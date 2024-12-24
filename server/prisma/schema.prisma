@@ -7,28 +7,31 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  products  Product[]
+model category {
+  id      Int       @id @default(autoincrement())
+  name    String
+  product product[]
 }
 
-model Product {
-  id          Int        @id @default(autoincrement())
+model product {
+  id          Int      @id @default(autoincrement())
   name        String
   description String
   price       Float
   categoryId  Int
   userId      Int
-  user        User       @relation(fields: [userId], references: [id])
-  category    Category   @relation(fields: [categoryId], references: [id])
+  category    category @relation(fields: [categoryId], references: [id], map: "Product_categoryId_fkey")
+  user        user     @relation(fields: [userId], references: [id], map: "Product_userId_fkey")
+
+  @@index([categoryId], map: "Product_categoryId_fkey")
+  @@index([userId], map: "Product_userId_fkey")
 }
 
-model Category {
-  id       Int       @id @default(autoincrement())
-  name     String
-  products Product[]
+model user {
+  id        Int       @id @default(autoincrement())
+  email     String    @unique(map: "User_email_key")
+  password  String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime
+  product   product[]
 }

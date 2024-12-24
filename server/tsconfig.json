@@ -15,5 +15,6 @@
       "@utils/*": ["utils/*"],
       "@prisma/*": ["../prisma/*"]
     }
-  }
+  },
+  "include": ["src/**/*.ts", "src/express.d.ts"]
 }
