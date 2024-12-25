@@ -1,14 +1,16 @@
-import { Text, View } from 'react-native'
-import React, { Component } from 'react'
+import { View, Text } from 'react-native'
+import React, { useState } from 'react'
+import { useAuth } from '../context/AuthContext';
 
-export class Login extends Component {
-  render() {
-    return (
-      <View>
-        <Text>Login</Text>
-      </View>
-    )
-  }
+const Login = () => {
+    const  [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const { onLogin, onRegister } = useAuth();
+  return (
+    <View>
+      <Text>Login</Text>
+    </View>
+  )
 }
 
 export default Login
