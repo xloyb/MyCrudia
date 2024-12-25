@@ -55,17 +55,17 @@ export const AuthProvider = ({ children }: any) => {
     loadToken();
   }, []);
 
-  const register = async (email: string, password: string) => {
-    try{
-       return await axios.post(`${API_URL}/register`, {
-            email,
-            password,
-        });
+//   const register = async (email: string, password: string) => {
+//     try{
+//        return await axios.post(`${API_URL}/register`, {
+//             email,
+//             password,
+//         });
         
-    }catch(e){
-        return {error: true, msg:(e as any).response.data.msg || "An error occurred"};
-    }
-  };
+//     }catch(e){
+//         return {error: true, msg:(e as any).response.data.msg || "An error occurred"};
+//     }
+//   };
 
 //   const login = async (email: string, password: string) => {
 //     try{
@@ -87,6 +87,34 @@ export const AuthProvider = ({ children }: any) => {
 //         return {error: true, msg:(e as any).response.data.msg || "An error occurred"};
 //     }
 //   };
+
+const register = async (email: string, password: string) => {
+    try {
+      const result = await axios.post(`${API_URL}/auth/register`, {
+        email,
+        password,
+      });
+  
+      if (result.data.token) {
+        setAuthState({
+          token: result.data.token,
+          authenticated: true,
+        });
+  
+        axios.defaults.headers.common["Authorization"] = `Bearer ${result.data.token}`;
+        await SecureStore.setItemAsync(TOKEN_KEY, result.data.token);
+        return { error: false, msg: "Registration successful" };
+      }
+      
+      return { error: false, msg: "Registration successful. Please log in." };
+    } catch (e) {
+      return {
+        error: true,
+        msg: (e as any).response?.data?.msg || "An error occurred",
+      };
+    }
+  };
+  
 
 
 const login = async (email: string, password: string) => {
