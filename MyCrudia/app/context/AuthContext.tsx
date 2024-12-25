@@ -33,16 +33,18 @@ export const AuthProvider = ({ children }: any) => {
 
   const register = async (email: string, password: string) => {
     try{
-        const response = await axios.post(`${API_URL}/register`, {
+       return await axios.post(`${API_URL}/register`, {
             email,
             password,
         });
-        console.log(response.data);
+        
     }catch(e){
         return {error: true, msg:(e as any).response.data.msg || "An error occurred"};
     }
   };
-const value = {};
+const value = {
+    onRegister: register,
+};
 
 return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
