@@ -1,13 +1,11 @@
 import express from 'express';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
-import { PrismaClient } from '@prisma/client';
 import authRoutes from '@routes/authRoutes';
 import categoryRoutes from '@routes/categoryRoutes';
 import productRoute from '@routes/productRoute';
 
 const app = express();
-const prisma = new PrismaClient();
 
 app.use(express.json());
 app.use(helmet());
