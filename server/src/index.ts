@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import { PrismaClient } from '@prisma/client';
 import authRoutes from '@routes/authRoutes';
 import categoryRoutes from '@routes/categoryRoutes';
+import productRoute from '@routes/productRoute';
 
 const app = express();
 const prisma = new PrismaClient();
@@ -22,6 +23,7 @@ app.use(limiter);
 
 app.use('/api/auth', authRoutes);
 app.use('/api/categories', categoryRoutes);
+app.use('/api/products', productRoute);
 
 app.listen(3000, () => {
   console.log('Server running on port 3000 - http://localhost:3000');

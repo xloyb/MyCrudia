@@ -35,5 +35,6 @@
     "jsonwebtoken": "^9.0.2",
     "prisma": "^6.1.0",
     "tsconfig-paths": "^4.2.0"
-  }
+  },
+   "moduleResolution": "node"
 }
