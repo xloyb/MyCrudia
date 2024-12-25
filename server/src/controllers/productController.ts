@@ -11,7 +11,7 @@ export const createProduct = async (req: Request, res: Response): Promise<void> 
       return;
     }
   
-    const userId = req.user?.id; // Assuming you have `req.user` set by a middleware
+    const userId = req.user?.id; 
   
     if (!userId) {
       res.status(403).json({ error: 'Unauthorized: User ID is required' });
@@ -41,7 +41,9 @@ export const createProduct = async (req: Request, res: Response): Promise<void> 
 export const getProducts = async (_req: Request, res: Response) => {
   try {
     const products = await prisma.product.findMany({
-      include: { category: true, user: true },
+      include: { 
+        category: true,
+     },
     });
     res.json(products);
   } catch (error) {
