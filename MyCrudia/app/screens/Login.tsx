@@ -1,30 +1,86 @@
-import { View, Text } from 'react-native'
-import React, { useState } from 'react'
-import { useAuth } from '../context/AuthContext';
+import { View, Text, TextInput, StyleSheet, Button } from "react-native";
+import React, { useState } from "react";
+import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
-    const  [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const { onLogin, onRegister } = useAuth();
-  
-    const login = async () => {
-        try {
-            const result = await onLogin!(email, password);
-            if(result && result.error){
-                alert(result.msg);
-            }
-        } catch (e) {
-            console.log(e);
-        }
-    }
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { onLogin, onRegister } = useAuth();
 
+  const login = async () => {
+    alert("login");
+    console.log("Before Login Call");
     
+    const result = await onLogin!(email, password);
+    console.log("Result from login:", result);  
+    if (result?.error) {
+      alert(result.msg);  
+    } else {
+      alert(result.msg);  
+    }
+  };
+  
 
-    return (
-    <View>
-      <Text>Login</Text>
+  const register = async () => {
+    alert("register");
+      const result = await onRegister!(email, password);
+      if (result && result.error) {
+        alert(result.msg);
+      } else {
+        login();
+      }
+   
+  };
+  return (
+    <View style={styles.container}>
+      <View style={{ width: "80%" }}>
+        <Text style={styles.title}>Login</Text>
+        <TextInput
+          style={{
+            height: 40,
+            borderColor: "gray",
+            borderWidth: 1,
+            marginBottom: 20,
+          }}
+          onChangeText={(text) => setEmail(text)}
+          value={email}
+          placeholder="Email"
+        />
+        <TextInput
+          style={{
+            height: 40,
+            borderColor: "gray",
+            borderWidth: 1,
+            marginBottom: 20,
+          }}
+          onChangeText={(text) => setPassword(text)}
+          value={password}
+          placeholder="Password"
+          secureTextEntry={true}
+        />
+        <Button onPress={login} title="Login" />
+        <Text>OR</Text>
+        <Button onPress={register} title="Register" />
+      </View>
     </View>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  separator: {
+    marginVertical: 30,
+    height: 1,
+    width: "80%",
+  },
+});
