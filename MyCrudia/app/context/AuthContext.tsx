@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import axios, { mergeConfig } from "axios";
 import * as SecureStore from "expo-secure-store";
 import { Try } from "expo-router/build/views/Try";
+import { Text } from "@/components/Themed";
 
 interface AuthProps {
   authState?: {
@@ -35,7 +36,6 @@ export const AuthProvider = ({ children }: any) => {
     const loadToken = async () => {
       try {
         const token = await SecureStore.getItemAsync(TOKEN_KEY);
-        console.log("stored token",token);
         if (token) {
           setAuthState({
             token,
@@ -49,8 +49,7 @@ export const AuthProvider = ({ children }: any) => {
           });
         }
       } catch (e) {
-        console.log(e);
-      }
+        console.error("Error loading token:", e);      }
     };
 
     loadToken();
@@ -68,27 +67,52 @@ export const AuthProvider = ({ children }: any) => {
     }
   };
 
-  const login = async (email: string, password: string) => {
-    try{
-       const result = await axios.post(`${API_URL}/login`, {
-            email,
-            password,
-        });
+//   const login = async (email: string, password: string) => {
+//     try{
+//        const result = await axios.post(`${API_URL}/login`, {
+//             email,
+//             password,
+//         });
 
-        console.log("token",result.data.token);
 
-        setAuthState({
-            token: result.data.token,
-            authenticated: true,
-        });
+//         setAuthState({
+//             token: result.data.token,
+//             authenticated: true,
+//         });
         
-        axios.defaults.headers.common["Authorization"] = `Bearer ${result.data.token}`;
-        await SecureStore.setItemAsync(TOKEN_KEY, result.data.token);
-        return result;
-    }catch(e){
-        return {error: true, msg:(e as any).response.data.msg || "An error occurred"};
+//         axios.defaults.headers.common["Authorization"] = `Bearer ${result.data.token}`;
+//         await SecureStore.setItemAsync(TOKEN_KEY, result.data.token);
+//         return result;
+//     }catch(e){
+//         return {error: true, msg:(e as any).response.data.msg || "An error occurred"};
+//     }
+//   };
+
+
+const login = async (email: string, password: string) => {
+    try {
+      const result = await axios.post(`${API_URL}/login`, {
+        email,
+        password,
+      });
+  
+      setAuthState({
+        token: result.data.token,
+        authenticated: true,
+      });
+  
+      axios.defaults.headers.common["Authorization"] = `Bearer ${result.data.token}`;
+      await SecureStore.setItemAsync(TOKEN_KEY, result.data.token);
+  
+      return { error: false, msg: "Login successful" };  // Return a uniform response
+    } catch (e) {
+      return {
+        error: true,
+        msg: (e as any).response?.data?.msg || "An error occurred",
+      };
     }
   };
+  
 
   const logout = async () => {
     try{
@@ -114,4 +138,7 @@ const value = {
 
 return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
+
+export default AuthProvider;
+
 
