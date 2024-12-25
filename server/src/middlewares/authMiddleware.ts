@@ -32,13 +32,13 @@ export const authenticateJWT = (req: Request, res: Response, next: NextFunction)
 
     jwt.verify(token, process.env.JWT_SECRET!, (err, user) => {
       if (err) {
-        return res.sendStatus(403); // Forbidden
+        return res.sendStatus(403); 
       }
 
-      req.user = user as User; // Now TypeScript knows `req.user` exists
+      req.user = user as User; 
       next();
     });
   } else {
-    res.sendStatus(401); // Unauthorized
+    res.sendStatus(401); 
   }
 };
