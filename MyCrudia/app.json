@@ -14,10 +14,7 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true,
-      "config": {
-        "usesNonExemptEncryption": false
-      }
+      "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
@@ -32,11 +29,7 @@
     },
     "plugins": [
       "expo-router",
-      "expo-secure-store",
-      {
-        "configureAndroidBackup": true,
-        "faceIDPermission": "Allow $(PRODUCT_NAME) to access your Face ID biometric data."
-      }
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true
