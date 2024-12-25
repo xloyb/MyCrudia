@@ -42,6 +42,33 @@ export const AuthProvider = ({ children }: any) => {
         return {error: true, msg:(e as any).response.data.msg || "An error occurred"};
     }
   };
+
+  const login = async (email: string, password: string) => {
+    try{
+       const result = await axios.post(`${API_URL}/login`, {
+            email,
+            password,
+        });
+
+        console.log("token",result.data.token);
+
+        setAuthState({
+            token: result.data.token,
+            authenticated: true,
+        });
+        
+        axios.defaults.headers.common["Authorization"] = `Bearer ${result.data.token}`;
+        await SecureStore.setItemAsync(TOKEN_KEY, result.data.token);
+        return result;
+    }catch(e){
+        return {error: true, msg:(e as any).response.data.msg || "An error occurred"};
+    }
+  };
+
+    
+
+
+
 const value = {
     onRegister: register,
 };
