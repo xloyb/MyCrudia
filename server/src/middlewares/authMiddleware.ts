@@ -11,14 +11,14 @@
 
 
 
-import { User } from '@prisma/client';
+import { user } from '@prisma/client';
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
 declare global {
   namespace Express {
     interface Request {
-      user?: User;
+      user?: user;
     }
   }
 }
@@ -35,7 +35,7 @@ export const authenticateJWT = (req: Request, res: Response, next: NextFunction)
         return res.sendStatus(403); 
       }
 
-      req.user = user as User; 
+      req.user = user as user; 
       next();
     });
   } else {

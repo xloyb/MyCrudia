@@ -7,10 +7,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const { onLogin, onRegister } = useAuth();
 
-  const login = async () => {
-    alert("login");
-    console.log("Before Login Call");
-    
+  const login = async () => { 
     const result = await onLogin!(email, password);
     console.log("Result from login:", result);  
     if (result?.error) {
@@ -22,7 +19,6 @@ const Login = () => {
   
 
   const register = async () => {
-    alert("register");
       const result = await onRegister!(email, password);
       if (result && result.error) {
         alert(result.msg);
