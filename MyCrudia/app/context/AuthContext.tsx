@@ -1,8 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axios, { mergeConfig } from "axios";
 import * as SecureStore from "expo-secure-store";
-import { Try } from "expo-router/build/views/Try";
-import { Text } from "@/components/Themed";
+
 
 interface AuthProps {
   authState?: {
@@ -16,7 +15,7 @@ interface AuthProps {
 
 const TOKEN_KEY = "my-jwt";
 
-export const API_URL = "http://localhost:3000/api/auth";
+export const API_URL = "https://0df3-196-232-65-169.ngrok-free.app/api/auth";
 const AuthContext = createContext<AuthProps>({});
 
 export const useAuth = () => {
@@ -90,7 +89,7 @@ export const AuthProvider = ({ children }: any) => {
 
 const register = async (email: string, password: string) => {
     try {
-      const result = await axios.post(`${API_URL}/auth/register`, {
+      const result = await axios.post(`${API_URL}/register`, {
         email,
         password,
       });
@@ -110,7 +109,7 @@ const register = async (email: string, password: string) => {
     } catch (e) {
       return {
         error: true,
-        msg: (e as any).response?.data?.msg || "An error occurred",
+        msg: (e as any).response.data.msg,
       };
     }
   };
@@ -123,6 +122,7 @@ const login = async (email: string, password: string) => {
         email,
         password,
       });
+      console.log("authContext: result in the login",result);
   
       setAuthState({
         token: result.data.token,
