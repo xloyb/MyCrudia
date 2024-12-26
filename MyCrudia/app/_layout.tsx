@@ -1,12 +1,18 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { DarkTheme, DefaultTheme, NavigationContainer, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
 
+const Stack = createNativeStackNavigator();
+
 import { useColorScheme } from '@/components/useColorScheme';
+import { AuthProvider, useAuth } from './context/AuthContext';
+import Home from './screens/Home';
+import { Button } from 'react-native';
+import Login from './screens/Login';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -22,6 +28,8 @@ export const unstable_settings = {
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  const colorScheme = useColorScheme();
+
   const [loaded, error] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     ...FontAwesome.font,
@@ -42,18 +50,73 @@ export default function RootLayout() {
     return null;
   }
 
-  return <RootLayoutNav />;
+  return (
+    <AuthProvider>
+      <NavigationContainer>
+      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <Layout />
+        </ThemeProvider>
+      </NavigationContainer>
+    </AuthProvider>
+  // return <AuthProvider> <Layout></Layout></AuthProvider>
+  );
 }
+
+export const Layout = () => {
+  const { authState, onLogout } = useAuth();
+  return (
+      <Stack.Navigator>
+        {authState?.authenticated ? (
+          <Stack.Screen
+            name="Home"
+            component={Home}
+            options={{
+              headerRight: () => (
+                <Button title="Logout" onPress={onLogout} />
+              ),
+            }}
+          />
+        ) : (
+          <Stack.Screen name="Login" component={Login} />
+        )}
+      </Stack.Navigator>
+  );
+};
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
+  const { authState, onLogout } = useAuth(); 
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-      </Stack>
+      <Stack.Navigator>
+        {authState?.authenticated ? (
+          <Stack.Screen
+            name="Home"
+            component={Home}
+            options={{
+              headerRight: () => (
+                <Button title="Logout" onPress={onLogout} />
+              ),
+            }}
+          />
+        ) : (
+          <Stack.Screen name="Login" component={Login} />
+        )}
+      </Stack.Navigator>
     </ThemeProvider>
   );
 }
+
+// function RootLayoutNav() {
+//   const colorScheme = useColorScheme();
+
+//   return (
+//     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+//       <Stack>
+//         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+//         <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+//       </Stack>
+//     </ThemeProvider>
+//   );
+// }
