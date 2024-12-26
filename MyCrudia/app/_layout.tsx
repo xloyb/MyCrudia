@@ -52,12 +52,10 @@ export default function RootLayout() {
 
   return (
     <AuthProvider>
-      <NavigationContainer>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Layout />
-        </ThemeProvider>
-      </NavigationContainer>
-    </AuthProvider>
+        <Layout />
+      </ThemeProvider>
+  </AuthProvider>
   // return <AuthProvider> <Layout></Layout></AuthProvider>
   );
 }
