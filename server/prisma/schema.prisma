@@ -21,7 +21,6 @@ model product {
   categoryId  Int
   userId      Int
   category    category @relation(fields: [categoryId], references: [id], map: "Product_categoryId_fkey")
-  user        user     @relation(fields: [userId], references: [id], map: "Product_userId_fkey")
 
   @@index([categoryId], map: "Product_categoryId_fkey")
   @@index([userId], map: "Product_userId_fkey")
@@ -31,7 +30,6 @@ model user {
   id        Int       @id @default(autoincrement())
   email     String    @unique(map: "User_email_key")
   password  String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime
-  product   product[]
+  createdAt DateTime?  @default(now())
+  updatedAt DateTime?
 }
