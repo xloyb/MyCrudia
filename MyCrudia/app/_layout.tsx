@@ -73,7 +73,7 @@ function RootLayoutNav() {
             name="(tabs)"
             options={{
               title: "MyCrudia",
-              headerShown: true,
+              headerShown: false,
               headerRight: () => <Button title="Logout" onPress={onLogout} />,
             }}
           />
