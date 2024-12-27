@@ -58,7 +58,6 @@ const Login = () => {
         info={['100 Users', 'One on One Support', 'All Core Features']}
         button={{ title: ' GET STARTED', icon: 'flight-takeoff' }}
       />
-    </ScrollView>
 
         <Text style={styles.title}>Login</Text>
         <TextInput
@@ -87,6 +86,8 @@ const Login = () => {
         <Button onPress={login} title="Login" />
         <Text>OR</Text>
         <Button onPress={register} title="Register" />
+        </ScrollView>
+
       </View>
     </View>
   );
