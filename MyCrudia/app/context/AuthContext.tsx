@@ -1,7 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axios, { mergeConfig } from "axios";
 import * as SecureStore from "expo-secure-store";
-import { MY_API_URL, MY_TOKEN_KEY } from "@env";
 
 
 interface AuthProps {
