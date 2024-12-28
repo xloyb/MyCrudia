@@ -50,7 +50,7 @@ export default function TabLayout() {
         name="two"
         options={{
           title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIconMaterialIcons name="category" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="product-hunt" color={color} />,
           headerRight: () => (
             <Link href="/modal" asChild>
               <Pressable>
@@ -67,20 +67,23 @@ export default function TabLayout() {
           ),
         }}
       />
-<Tabs.Screen
-        name="manageproducts"
-        options={{
-          title: 'sdfsdfsd',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-        }}
-      />
+
 <Tabs.Screen
         name="managecategories"
         options={{
-          title: 'Manage Categories',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Categories',
+          tabBarIcon: ({ color }) => <TabBarIconMaterialIcons name="category" color={color} />,
         }}
       />
+
+<Tabs.Screen
+        name="manageproducts"
+        options={{
+          title: 'Products',
+          tabBarIcon: ({ color }) => <TabBarIcon name="product-hunt" color={color} />,
+        }}
+      />
+
 
 
 
