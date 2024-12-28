@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { StyleSheet, TextInput, Button, FlatList, Alert } from 'react-native';
 import { Text, View } from '@/components/Themed';
-import { createProduct, deleteProduct, getProducts, updateProduct } from '../services/products';
-//import { createProduct, deleteProduct, getProducts, updateProduct } from '../services/products';
+import { createProduct, deleteProduct, getProducts, updateProduct } from '../services/Products';
 
 export default function ManageProductsScreen() {
   const [products, setProducts] = useState<any[]>([]);
