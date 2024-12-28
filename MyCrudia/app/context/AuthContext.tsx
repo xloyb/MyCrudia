@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axios, { mergeConfig } from "axios";
 import * as SecureStore from "expo-secure-store";
+import { API_URLL, TOKEN_KEYY } from "@env";
 
 interface AuthProps {
   authState?: {
@@ -12,9 +13,14 @@ interface AuthProps {
   onLogout?: () => Promise<any>;
 }
 
-const TOKEN_KEY = "my-jwt";
+const TOKEN_KEY = process.env.TOKEN_KEYY || 'auth_token';
+console.log("------------------- testing TOKEN_KEY output:",TOKEN_KEY);
 
-export const API_URL = "https://73f1-160-158-216-86.ngrok-free.app/api/auth";
+//export const API_URL = "https://73f1-160-158-216-86.ngrok-free.app/api/auth";
+
+export const API_URL = `${process.env.API_URLL}/auth` || "http://localhost:3000/api/auth";
+console.log("------------------- testing API_URL output:",API_URL);
+
 const AuthContext = createContext<AuthProps>({});
 
 export const useAuth = () => {
