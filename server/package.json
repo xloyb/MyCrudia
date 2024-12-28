@@ -13,6 +13,7 @@
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
     "@types/escape-html": "^1.0.4",
+    "@types/eslint-plugin-security": "^3.0.0",
     "@types/express": "^5.0.0",
     "@types/node": "^22.10.2",
     "eslint": "^9.17.0",
@@ -36,5 +37,5 @@
     "prisma": "^6.1.0",
     "tsconfig-paths": "^4.2.0"
   },
-   "moduleResolution": "node"
+  "moduleResolution": "node"
 }
