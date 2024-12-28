@@ -35,11 +35,8 @@ const Login = () => {
   return (
     <View style={styles.container}>
       <View style={{ width: "80%" }}>
-      <Button size="md">Medium</Button>
 
       <ScrollView>
-     
-
         <Text style={styles.title}>Login / Register (BETA)</Text>
         <TextInput
           style={{
