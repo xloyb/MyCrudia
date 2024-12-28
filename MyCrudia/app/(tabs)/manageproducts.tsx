@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react';
 import { StyleSheet, TextInput, Button, FlatList, Alert } from 'react-native';
 import { Text, View } from '@/components/Themed';
 import { createProduct, deleteProduct, getProducts, updateProduct } from '../services/Products';
+import { getCategories } from '../services/Category';
+import { Picker } from '@react-native-picker/picker';
+
 
 export default function ManageProductsScreen() {
   const [products, setProducts] = useState<any[]>([]);
@@ -11,11 +14,23 @@ export default function ManageProductsScreen() {
     price: '',
     categoryId: '',
   });
+  const [categories, setCategories] = useState<any[]>([]);
   const [editingProduct, setEditingProduct] = useState<any>(null);
 
   useEffect(() => {
     fetchProducts();
+    fetchCategories();
   }, []);
+
+
+  const fetchCategories = async () => {
+    try {
+      const data = await getCategories();
+      setCategories(data);
+    } catch (error) {
+      Alert.alert('Error', 'Failed to fetch categories');
+    }
+  };
 
   const fetchProducts = async () => {
     try {
@@ -92,13 +107,24 @@ export default function ManageProductsScreen() {
         keyboardType="numeric"
         onChangeText={(text) => setNewProduct({ ...newProduct, price: text })}
       />
-      <TextInput
+      {/* <TextInput
         style={styles.input}
         placeholder="Category ID"
         value={newProduct.categoryId}
         keyboardType="numeric"
         onChangeText={(text) => setNewProduct({ ...newProduct, categoryId: text })}
-      />
+      /> */}
+
+<Picker
+        selectedValue={newProduct.categoryId}
+        onValueChange={(itemValue) =>
+          setNewProduct({ ...newProduct, categoryId: itemValue })
+        }>
+        <Picker.Item label="Select Category" value="" />
+        {categories.map((category) => (
+          <Picker.Item key={category.id} label={category.name} value={category.id} />
+        ))}
+      </Picker>
       <Button
         title={editingProduct ? 'Update Product' : 'Add Product'}
         onPress={editingProduct ? handleUpdateProduct : handleCreateProduct}
