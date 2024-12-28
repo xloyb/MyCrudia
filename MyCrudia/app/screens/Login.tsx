@@ -38,28 +38,9 @@ const Login = () => {
       <Button size="md">Medium</Button>
 
       <ScrollView>
-      <PricingCard
-        color={lightColors.primary}
-        title="Free"
-        price="$0"
-        info={['1 User', 'Basic Support', 'All Core Features']}
-        button={{ title: ' GET STARTED', icon: 'flight-takeoff' }}
-      />
-      <PricingCard
-        color={lightColors.secondary}
-        title="Starter"
-        price="$19"
-        info={['10 Users', 'Basic Support', 'All Core Features']}
-        button={{ title: ' GET STARTED', icon: 'flight-takeoff' }}
-      />
-      <PricingCard
-        title="Enterprise"
-        price="$49"
-        info={['100 Users', 'One on One Support', 'All Core Features']}
-        button={{ title: ' GET STARTED', icon: 'flight-takeoff' }}
-      />
+     
 
-        <Text style={styles.title}>Login</Text>
+        <Text style={styles.title}>Login / Register (BETA)</Text>
         <TextInput
           style={{
             height: 40,
