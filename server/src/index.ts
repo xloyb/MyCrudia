@@ -7,6 +7,7 @@ import productRoute from '@routes/productRoute';
 
 const app = express();
 
+app.set('trust proxy', 1);
 app.use(express.json());
 app.use(helmet());
 
@@ -15,7 +16,8 @@ const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, 
   max: 100,
   standardHeaders: true,
-  legacyHeaders: false
+  legacyHeaders: false,
+  message: 'Too many requests, please try again later.',
 });
 app.use(limiter);
 
