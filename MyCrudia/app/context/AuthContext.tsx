@@ -13,12 +13,16 @@ interface AuthProps {
   onLogout?: () => Promise<any>;
 }
 
-const TOKEN_KEY = process.env.MY_TOKEN_KEY || 'auth_token';
+//const TOKEN_KEY = process.env.MY_TOKEN_KEY || 'auth_token';
+const TOKEN_KEY = 'my-jwt';
+
 console.log("------------------- testing TOKEN_KEY output:",TOKEN_KEY);
 
 //export const API_URL = "https://73f1-160-158-216-86.ngrok-free.app/api/auth";
 
-export const API_URL = `${process.env.MY_API_URL}/auth` || "http://localhost:3000/api/auth";
+//export const API_URL = `${process.env.MY_API_URL}/auth` || "http://localhost:3000/api/auth";
+export const API_URL = "https://1443-160-158-216-86.ngrok-free.app/api/auth";
+
 console.log("------------------- testing API_URL output:",API_URL);
 
 const AuthContext = createContext<AuthProps>({});

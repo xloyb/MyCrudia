@@ -1,71 +1,82 @@
-import { View, Text, TextInput, StyleSheet } from "react-native";
+
+
+
 import React, { useState } from "react";
+import { View, StyleSheet } from "react-native";
+import { Button, TextField, Picker, Incubator, Text } from "react-native-ui-lib";
 import { useAuth } from "../context/AuthContext";
-import { Button } from '@rneui/themed';
-import { ScrollView } from 'react-native';
-import { PricingCard, lightColors } from '@rneui/themed';
-
-
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const { onLogin, onRegister } = useAuth();
 
-  const login = async () => { 
+  const login = async () => {
+    setLoading(true);
     const result = await onLogin!(email, password);
-    console.log("Result from login:", result);  
+    setLoading(false);
+
     if (result?.error) {
-      alert(result.msg);  
+      alert(result.msg);
     } else {
-      alert(result.msg);  
+      alert(result.msg);
     }
   };
-  
 
   const register = async () => {
-      const result = await onRegister!(email, password);
-      if (result && result.error) {
-        alert(result.msg);
-      } else {
-        login();
-      }
-   
+    setLoading(true);
+    const result = await onRegister!(email, password);
+    setLoading(false);
+
+    if (result && result.error) {
+      alert(result.msg);
+    } else {
+      login();
+    }
   };
+
   return (
     <View style={styles.container}>
       <View style={{ width: "80%" }}>
-
-      <ScrollView>
         <Text style={styles.title}>Login / Register (BETA)</Text>
-        <TextInput
-          style={{
-            height: 40,
-            borderColor: "gray",
-            borderWidth: 1,
-            marginBottom: 20,
-          }}
+        
+        <TextField
+          placeholder="Email"
           onChangeText={(text) => setEmail(text)}
           value={email}
-          placeholder="Email"
+          floatingPlaceholder
+          enableErrors
+          validate={['required', 'email']}
+          validationMessage={['Field is required', 'Email is invalid']}
+          fieldStyle={styles.textField}
         />
-        <TextInput
-          style={{
-            height: 40,
-            borderColor: "gray",
-            borderWidth: 1,
-            marginBottom: 20,
-          }}
+
+        <TextField
+          placeholder="Password"
           onChangeText={(text) => setPassword(text)}
           value={password}
-          placeholder="Password"
-          secureTextEntry={true}
+          secureTextEntry
+          floatingPlaceholder
+          enableErrors
+          validate={['required']}
+          validationMessage={['Field is required']}
+          fieldStyle={styles.textField}
         />
-        <Button onPress={login} title="Login" />
-        <Text>OR</Text>
-        <Button onPress={register} title="Register" />
-        </ScrollView>
 
+        <Button
+          onPress={login}
+          label={loading ? "Loading..." : "Login"}
+          disabled={loading}
+          backgroundColor="#6200EE"
+        />
+        <Text center marginT-10>OR</Text>
+        <Button
+          onPress={register}
+          label={loading ? "Loading..." : "Register"}
+          disabled={loading}
+          backgroundColor="#03DAC5"
+        />
       </View>
     </View>
   );
@@ -80,12 +91,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   title: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: "bold",
+    marginBottom: 30,
+    textAlign: 'center'
   },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
-  },
+  textField: {
+    borderBottomWidth: 1,
+    borderColor: '#888',
+    marginBottom: 20
+  }
 });

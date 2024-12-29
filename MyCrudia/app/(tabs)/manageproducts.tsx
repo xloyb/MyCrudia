@@ -1,10 +1,9 @@
+
 import { useState, useEffect } from 'react';
-import { StyleSheet, TextInput, Button, FlatList, Alert } from 'react-native';
-import { Text, View } from '@/components/Themed';
+import { FlatList, Alert } from 'react-native';
+import { Text, View, TextField, Button, Picker } from 'react-native-ui-lib';
 import { createProduct, deleteProduct, getProducts, updateProduct } from '../services/Products';
 import { getCategories } from '../services/Category';
-import { Picker } from '@react-native-picker/picker';
-
 
 export default function ManageProductsScreen() {
   const [products, setProducts] = useState<any[]>([]);
@@ -16,12 +15,12 @@ export default function ManageProductsScreen() {
   });
   const [categories, setCategories] = useState<any[]>([]);
   const [editingProduct, setEditingProduct] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchProducts();
     fetchCategories();
   }, []);
-
 
   const fetchCategories = async () => {
     try {
@@ -43,23 +42,27 @@ export default function ManageProductsScreen() {
 
   const handleCreateProduct = async () => {
     if (!newProduct.name || !newProduct.description || !newProduct.price || !newProduct.categoryId) return;
+    setLoading(true);
     try {
-      //await createProduct(newProduct);
       await createProduct(newProduct.name, newProduct.description, Number(newProduct.price), Number(newProduct.categoryId));
-
       setNewProduct({ name: '', description: '', price: '', categoryId: '' });
       fetchProducts();
     } catch (error) {
       Alert.alert('Error', 'Failed to create product');
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleDeleteProduct = async (id: number) => {
+    setLoading(true);
     try {
       await deleteProduct(id);
       fetchProducts();
     } catch (error) {
       Alert.alert('Error', 'Failed to delete product');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -75,6 +78,7 @@ export default function ManageProductsScreen() {
 
   const handleUpdateProduct = async () => {
     if (!editingProduct || !newProduct.name || !newProduct.description || !newProduct.price || !newProduct.categoryId) return;
+    setLoading(true);
     try {
       await updateProduct(editingProduct.id, newProduct.name, newProduct.description, Number(newProduct.price), Number(newProduct.categoryId));
       setNewProduct({ name: '', description: '', price: '', categoryId: '' });
@@ -82,90 +86,101 @@ export default function ManageProductsScreen() {
       fetchProducts();
     } catch (error) {
       Alert.alert('Error', 'Failed to update product');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Manage Products</Text>
-      <TextInput
-        style={styles.input}
+    <View flex padding-20>
+      <Text text40 marginB-20 color="#3A3A3A">Manage Products</Text>
+      {/* <TextField
         placeholder="Product Name"
         value={newProduct.name}
         onChangeText={(text) => setNewProduct({ ...newProduct, name: text })}
+        floatingPlaceholder
+        placeholderTextColor="#6C757D"
+        style={{ backgroundColor: '#F5F5F5', borderRadius: 8, padding: 10 }}
       />
-      <TextInput
-        style={styles.input}
+      <TextField
         placeholder="Description"
         value={newProduct.description}
         onChangeText={(text) => setNewProduct({ ...newProduct, description: text })}
+        floatingPlaceholder
+        placeholderTextColor="#6C757D"
+        style={{ backgroundColor: '#F5F5F5', borderRadius: 8, padding: 10 }}
       />
-      <TextInput
-        style={styles.input}
+      <TextField
         placeholder="Price"
         value={newProduct.price}
         keyboardType="numeric"
         onChangeText={(text) => setNewProduct({ ...newProduct, price: text })}
-      />
-      {/* <TextInput
-        style={styles.input}
-        placeholder="Category ID"
-        value={newProduct.categoryId}
-        keyboardType="numeric"
-        onChangeText={(text) => setNewProduct({ ...newProduct, categoryId: text })}
+        floatingPlaceholder
+        placeholderTextColor="#6C757D"
+        style={{ backgroundColor: '#F5F5F5', borderRadius: 8, padding: 10 }}
       /> */}
 
-<Picker
-        selectedValue={newProduct.categoryId}
-        onValueChange={(itemValue) =>
-          setNewProduct({ ...newProduct, categoryId: itemValue })
-        }>
-        <Picker.Item label="Select Category" value="" />
+<TextField
+  placeholder="Product Name"
+  value={newProduct.name}
+  onChangeText={(text) => setNewProduct({ ...newProduct, name: text })}
+  placeholderTextColor="#6C757D"
+  style={{ backgroundColor: '#cbd1d5', borderRadius: 8, padding: 20, marginBottom: 15, height: 40  }}
+/>
+<TextField
+  placeholder="Description"
+  value={newProduct.description}
+  onChangeText={(text) => setNewProduct({ ...newProduct, description: text })}
+  placeholderTextColor="#6C757D"
+  style={{ backgroundColor: '#cbd1d5', borderRadius: 8, padding: 20, marginBottom: 15, height: 40  }}
+/>
+<TextField
+  placeholder="Price"
+  value={newProduct.price}
+  keyboardType="numeric"
+  onChangeText={(text) => setNewProduct({ ...newProduct, price: text })}
+  placeholderTextColor="#6C757D"
+  style={{ backgroundColor: '#cbd1d5', borderRadius: 8, padding: 20, marginBottom: 15, height: 40  }}
+/>
+
+      <Picker
+        placeholder="Select Category"
+        value={newProduct.categoryId}
+        onChange={(item) => {
+          if (item) {
+            setNewProduct({ ...newProduct, categoryId: item.toString() });
+          }
+        }}
+        topBarProps={{ title: 'Categories' }}
+        style={{ backgroundColor: '#F5F5F5', borderRadius: 8, padding: 10 }}
+      >
         {categories.map((category) => (
-          <Picker.Item key={category.id} label={category.name} value={category.id} />
+          <Picker.Item key={category.id} value={category.id.toString()} label={category.name} />
         ))}
       </Picker>
+
       <Button
-        title={editingProduct ? 'Update Product' : 'Add Product'}
+        label={editingProduct ? 'Update Product' : 'Add Product'}
         onPress={editingProduct ? handleUpdateProduct : handleCreateProduct}
+        marginT-20
+        disabled={loading}
+        backgroundColor={editingProduct ? '#007BFF' : '#28A745'}
+        color="white"
       />
+
       <FlatList
         data={products}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <View style={styles.productItem}>
-            <Text>{item.name}</Text>
-            <Button title="Edit" onPress={() => handleEditProduct(item)} />
-            <Button title="Delete" onPress={() => handleDeleteProduct(item.id)} color="red" />
+          <View row spread paddingV-15 style={{ borderBottomWidth: 1, borderColor: '#E0E0E0' }}>
+            <Text color="#3A3A3A">{item.name}</Text>
+            <View row>
+              <Button label="Edit" onPress={() => handleEditProduct(item)} link color="#007BFF" marginR-10 />
+              <Button label="Delete" onPress={() => handleDeleteProduct(item.id)} link color="#DC3545" />
+            </View>
           </View>
         )}
       />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  input: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 10,
-    paddingHorizontal: 10,
-  },
-  productItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    padding: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
-  },
-});
