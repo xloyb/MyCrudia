@@ -21,6 +21,10 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
+app.get('/', (req, res) => {
+  res.send('Welcome to the MyCrudia!');
+});
+
 app.use('/api/auth', authRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/products', productRoute);
