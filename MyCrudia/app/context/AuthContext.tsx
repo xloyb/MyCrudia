@@ -21,7 +21,7 @@ console.log("------------------- testing TOKEN_KEY output:",TOKEN_KEY);
 //export const API_URL = "https://73f1-160-158-216-86.ngrok-free.app/api/auth";
 
 //export const API_URL = `${process.env.MY_API_URL}/auth` || "http://localhost:3000/api/auth";
-export const API_URL = "https://1443-160-158-216-86.ngrok-free.app/api/auth";
+export const API_URL = "https://f7b3-196-226-14-175.ngrok-free.app/api/auth";
 
 console.log("------------------- testing API_URL output:",API_URL);
 
