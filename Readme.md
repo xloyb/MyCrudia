@@ -25,10 +25,10 @@ Welcome to the MyCrudia project! This repository contains the complete source co
 ## Frontend and Backend Guides
 
 ### **Frontend**
-For detailed instructions on setting up and understanding the frontend, refer to the [README.md](mycrudia/README.md) inside the **/mycrudia** directory.
+For detailed instructions on setting up and understanding the frontend, refer to the [README.md](https://github.com/xloyb/MyCrudia/tree/main/MyCrudia#readme) inside the **/mycrudia** directory.
 
 ### **Backend**
-For detailed instructions on setting up and understanding the backend, refer to the [README.md](server/README.md) inside the **/server** directory.
+For detailed instructions on setting up and understanding the backend, refer to the [README.md](https://github.com/xloyb/MyCrudia/blob/main/server/Readme.md) inside the **/server** directory.
 
 ---
 

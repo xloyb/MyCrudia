@@ -1,4 +1,3 @@
-Here’s the revised section with the note about login and registration inputs:
 
 ---
 
