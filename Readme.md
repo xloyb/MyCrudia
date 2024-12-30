@@ -1,11 +1,3 @@
-showcase/AddCategory.PNG
-showcase/AddProduct.PNG
-showcase/Alert.PNG
-showcase/Login.PNG
-showcase/UpdateCategory.PNG
-showcase/UpdateProduct.PNG
-showcase/vid.mp4
-
 # MyCrudia Project
 
 Welcome to the MyCrudia project! This repository contains the complete source code for the **MyCrudia** mobile application, its backend server, and showcases of its features.
