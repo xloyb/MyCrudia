@@ -55,9 +55,11 @@ For detailed instructions on setting up and understanding the backend, refer to 
 <img src="showcase/UpdateProduct.PNG" alt="Update Product" width="200" />
 
 ### Video Demo
-[Watch Demo](showcase/vid.mp4)
+### Video Demo
+You can stream the demo video directly on Vimeo:  
+[![Watch Demo](showcase/vid-thumbnail.png)](https://vimeo.com/1042897229)
 
-
+Alternatively, download the video directly: [Watch Demo](showcase/vid.mp4)
 
 ---
 
