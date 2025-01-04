@@ -2,7 +2,6 @@
 
 Welcome to the MyCrudia project! This repository contains the complete source code for the **MyCrudia** mobile application, its backend server, and showcases of its features.
 
-Welcome to the MyCrudia project! This repository contains the complete source code for the **MyCrudia** mobile application, its backend server, and showcases of its features.
 
 
 ---
